@@ -1,5 +1,5 @@
 from database.models.document_chunk_model import DocumentChunk
-from database.connection import session
+from database.connection import async_session
 from logging_config import logger
 from sqlalchemy import select
 
@@ -8,7 +8,7 @@ class EmbeddingsRepository:
         self.model = DocumentChunk
 
     async def save_chunks(self, filename: str, chunks: list, embeddings: list):
-        async with session() as db:
+        async with async_session() as db:
             for chunk, embedding in zip(chunks, embeddings):
                 db.add(self.model(text=chunk.page_content, 
                                     embedding=embedding, 
@@ -22,7 +22,7 @@ class EmbeddingsRepository:
         return False
     
     async def retrieve_chunks(self, user_query: str, top_k: int = 5) -> list:
-        async with session() as db:
+        async with async_session() as db:
             query_embedding = user_query
             stmt = (
                 select(

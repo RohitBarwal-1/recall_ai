@@ -1,7 +1,7 @@
 
 
 
-async def format_prompt( query: str, chunks: list, history: list = None ) -> str:
+async def format_prompt( query: str, chunks: list, history: list = [None] ) -> str:
     formatted_history = "No previous conversation."
 
     if history:
