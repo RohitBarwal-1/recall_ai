@@ -39,14 +39,8 @@ Table document_chunks {
   document_id uuid 
   chunk_index integer
   content text
-  metadata jsonb
-  created_at timestamp
-}
-
-Table chunk_embeddings {
-  embedding_id uuid PK
-  chunk_id uuid 
   embedding vector(1536)
+  metadata jsonb
   embedding_model varchar
   created_at timestamp
 }
@@ -88,7 +82,6 @@ Table message_sources{
 Ref: users.user_id < collection.user_id
 Ref: collection.collection_id < document.collection_id
 Ref: document.document_id < document_chunks.document_id
-Ref: document_chunks.chunk_id < chunk_embeddings.chunk_id
 Ref: collection.collection_id < chat.collection_id
 Ref: chat.chat_id < memory.chat_id
 Ref: "chat"."chat_id" < "messages"."chat_id"
