@@ -1,11 +1,11 @@
-from database.models.document_chunk_model import DocumentChunk
+from database.models.document_chunk_model import DocumentChunks
 from database.connection import async_session
 from logging_config import logger
 from sqlalchemy import select
 
 class EmbeddingsRepository:
     def __init__(self):
-        self.model = DocumentChunk
+        self.model = DocumentChunks
 
     async def save_chunks(self, filename: str, chunks: list, embeddings: list):
         async with async_session() as db:

@@ -1,18 +1,24 @@
 import tempfile
-from logging_config import logger
-from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader, TextLoader, BSHTMLLoader
-from fastapi.responses import JSONResponse
+import logging
 from fastapi import status
-from .chunking_service import ChunkingService
-from .embedding_service import EmbeddingService
+from fastapi.responses import JSONResponse
+from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader, TextLoader, BSHTMLLoader
 from repository.document_chunk_repo import EmbeddingsRepository
+from repository.document_repo import DocumentRepository
+from services.chunking_service import ChunkingService
+from services.embedding_service import EmbeddingService
+
+logger = logging.getLogger(__name__)
+
 
 async def upload_document_service(data, file):
-    logger.info("Document extraction initiated")
+    logger.info(f"Adding new document for user: {data.user_id}")
     chunking_service = ChunkingService()
     embedding_service = EmbeddingService()
     embeddings_repo  = EmbeddingsRepository()
-
+    document_repo = DocumentRepository()
+    await document_repo.add_document(data, file)
+    
     file_extension = file.filename.split(".")[-1]
     with tempfile.NamedTemporaryFile(
             delete=False,

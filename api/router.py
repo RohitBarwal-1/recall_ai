@@ -23,9 +23,9 @@ async def collection_create_route(payload: CollectionCreateRequest):
     return await collection_create_service(payload)
 
 
-@router.post("/upload/document", tags=["Upload documents"])
+@router.post("/document/upload", tags=["Upload documents"])
 async def upload_documents_route(data: FileUploadRequest = Depends(), file: UploadFile = File(...), ):
-    logger.info("Document upload initiated")
+    logger.info("Received request to upload document")
     return await upload_document_service(data, file)
 
 

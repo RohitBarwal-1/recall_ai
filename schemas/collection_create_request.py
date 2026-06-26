@@ -5,5 +5,5 @@ from typing import Optional
 class CollectionCreateRequest(BaseModel):
     user_id: str
     collection_name: str
-    collection_description: Optional[str]
-    collection_settings: Optional[dict]
+    collection_description: Optional[str] = None
+    collection_settings: Optional[dict] = None
